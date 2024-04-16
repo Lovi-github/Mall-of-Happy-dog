@@ -1,6 +1,5 @@
-# vue3-wwsc
-
-This template should help get you started developing with Vue 3 in Vite.
+# Mall of Happy Dog
+快乐小狗的商铺
 
 ## Recommended IDE Setup
 

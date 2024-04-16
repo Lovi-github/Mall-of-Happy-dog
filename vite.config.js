@@ -14,6 +14,8 @@ export default defineConfig({
     // 配置插件
     AutoImport({
       resolvers: [ElementPlusResolver()],
+      //自动导入下面的依赖
+      imports:["vue","vue-router","pinia"],
     }),
     Components({
       resolvers: [
