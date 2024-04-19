@@ -3,13 +3,11 @@
 </script>
 
 <template>
-  <header>
-    <router-view></router-view>
-  </header>
+
+  <router-view></router-view>
+
 </template>
 
 <style scoped lang="scss">
-header{
-  color: $priceColor
-}
+
 </style>
