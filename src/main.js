@@ -10,9 +10,7 @@ import {useIntersectionObserver} from "@vueuse/core";
 import {lazyImgLoading} from "@/directives/index.js";
 
 const app = createApp(App)
-// getCateGoryApi().then(res=>{
-//     console.log(res)
-// })
+
 app.use(createPinia())
 app.use(router)
 app.use(lazyImgLoading)

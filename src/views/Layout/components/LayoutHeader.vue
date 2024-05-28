@@ -10,7 +10,7 @@ const categoryStore = useCategoryStore()
   <header class='app-header'>
     <div class="container">
       <h1 class="logo">
-        <RouterLink to="/">旺旺商城</RouterLink>
+        <RouterLink to="/">Mall of happy dog</RouterLink>
       </h1>
 <!--      配置id-->
       <ul class="app-header-nav">
@@ -18,7 +18,8 @@ const categoryStore = useCategoryStore()
           <RouterLink to="/">首页</RouterLink>
         </li>
         <li v-for="category in categoryStore.categoryList" key="category.id">
-          <RouterLink to="/">{{category.name}}</RouterLink>
+          <!--在这里给分类配置id,因为to的值是表达式，所以要加上: 然后因为用到了模板语法${} 所以要加上反引号哦-->
+          <RouterLink :to="`/category/${category.id}`">{{category.name}}</RouterLink>
         </li>
       </ul>
       <div class="search">

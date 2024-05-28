@@ -14,10 +14,12 @@ onMounted(()=>getHotList())
   <HomePanel title="人气推荐" sub-title="人气爆款 不容错过" >
     <ul class="goods-list">
       <li v-for="item in hotList" :key="item.id">
-        <!--实现图片懒加载-->
+        <RouterLink :to="`/detail/${item.id}`">
+          <!--实现图片懒加载-->
           <img v-img-lazy="item.picture" alt=""/>
           <p class="name">{{item.title}}</p>
           <p class="desc">{{item.alt}}</p>
+        </RouterLink>
       </li>
     </ul>
   </HomePanel>

@@ -56,7 +56,7 @@
             <a href="javascript:;">搜索推荐</a>
             <a href="javascript:;">友情链接</a>
           </p>
-          <p>CopyRight © 旺旺商城</p>
+          <p>CopyRight © Mall of happy dog</p>
         </div>
       </div>
     </div>

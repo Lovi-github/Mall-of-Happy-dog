@@ -16,7 +16,7 @@ export const lazyImgLoading = {
                     el,
                     ([{isIntersecting}])=>{
                         //isIntersecting的值：能看见就是true，不能为false
-                        console.log(isIntersecting)
+                        // console.log(isIntersecting)
                         if(isIntersecting){
                             el.src = binding.value;
                             stop();

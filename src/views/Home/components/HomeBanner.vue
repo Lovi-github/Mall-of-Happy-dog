@@ -1,11 +1,11 @@
 <script setup>
-//创建响应式轮播图数据
-import {getBannerApi} from "@/apis/home.js";
 
+import {getBannerAPI} from "@/apis/home.js";
+//创建响应式轮播图数据
 const bannerList = ref([])
 //定义异步请求后端接口的方法
 const getBanners = async ()=>{
-  bannerList.value = (await getBannerApi()).result
+  bannerList.value = (await getBannerAPI()).result
 }
 onMounted(()=>getBanners())
 

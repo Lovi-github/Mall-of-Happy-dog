@@ -15,6 +15,8 @@ export default {
   <LayoutNav></LayoutNav>
   <LayoutHeader></LayoutHeader>
 <!--和路由配合，这里是展示首页，说白了就是展示当前页的子组件  -->
+  <!--增加key，强制摧毁重建不复用-->
+  <!--<router-view :key="$route.fullPath"></router-view>-->
   <router-view></router-view>
   <LayoutFooter></LayoutFooter>
 
