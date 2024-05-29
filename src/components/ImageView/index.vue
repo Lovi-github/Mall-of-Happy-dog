@@ -1,5 +1,7 @@
 <script setup>
 // 图片列表
+import {useMouseInElement} from "@vueuse/core";
+
 const imageList = [
   "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
   "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
@@ -14,16 +16,56 @@ const activeIndex = ref(0)//初始化为0
 const changImage = (i) =>{
   activeIndex.value = i;
 }
+//实现黑色遮罩效果（遮罩跟随鼠标移动）,用到了vueUse来获取我们元素XY的值和一个算法
+//定义响应式target【鼠标移动位置】
+const target = ref(null)
+const {elementX,elementY,isOutside} = useMouseInElement(target)
+// 3. 控制滑块跟随鼠标移动（监听elementX/Y变化，一旦变化 重新设置left/top）
+const left = ref(0)
+const top = ref(0)
+const positonX = ref(0)
+const positonY = ref(0)
+//定义监视器watch监听elementX, elementY, isOutside
+watch([elementX,elementY,isOutside],()=>{
+  console.log(left,top,isOutside)
+  //如果遮罩不在图片内，那就直接返回
+  if(isOutside.value){ return; }
+  //处理边界
+  if(elementX.value<100){
+    left.value =  0
+  }
+  if(elementX.value>300){
+    left.value = 200
+  }
+  if(elementY.value<100){
+    top.value =  0
+  }
+  if(elementY.value>300){
+    top.value = 200
+  }
+  //监听X
+  if(100<elementX.value&&elementX.value<300){
+    left.value = elementX.value- 100
+  }
+  //监听Y
+  if(100<elementY.value&&elementY.value<300){
+    top.value = elementY.value - 100
+  }
+
+  //放大效果
+  positonX.value = -left.value * 2
+  positonY.value = -top.value * 2
+})
 </script>
 
 
 <template>
   <div class="goods-image">
     <!-- 左侧大图-->
-    <div class="middle">
+    <div class="middle" ref="target">
       <img :src="imageList[activeIndex]" alt="" />
       <!-- 蒙层小滑块 -->
-      <div class="layer" :style="{ left: `0px`, top: `0px` }"></div>
+      <div class="layer" v-show="!isOutside" :style="{ left: `${left}px`, top: `${top}px` }"></div>
     </div>
     <!-- 小图列表 -->
     <ul class="small">
@@ -34,11 +76,11 @@ const changImage = (i) =>{
     <!-- 放大镜大图 -->
     <div class="large" :style="[
       {
-        backgroundImage: `url(${imageList[0]})`,
-        backgroundPositionX: `0px`,
-        backgroundPositionY: `0px`,
+        backgroundImage: `url(${imageList[activeIndex]})`,
+        backgroundPositionX: `${positonX}px`,
+        backgroundPositionY: `${positonY}px`,
       },
-    ]" v-show="false"></div>
+    ]" v-show="!isOutside"></div>
   </div>
 </template>
 
