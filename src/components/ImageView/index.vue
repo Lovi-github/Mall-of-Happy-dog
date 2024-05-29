@@ -34,7 +34,6 @@ const positonX = ref(0)
 const positonY = ref(0)
 //定义监视器watch监听elementX, elementY, isOutside
 watch([elementX,elementY,isOutside],()=>{
-  console.log(left,top,isOutside)
   //如果遮罩不在图片内，那就直接返回
   if(isOutside.value){ return; }
   //处理边界

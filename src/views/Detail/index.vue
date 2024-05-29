@@ -3,17 +3,19 @@ import {useRoute} from "vue-router";
 import {getDetailAPI} from "@/apis/details.js";
 import DetailHot from "@/views/Detail/components/DetailHot.vue";
 import ImageView from "@/components/ImageView/index.vue";
+import Sku from "@/components/sku/index.vue";
 
 const route = useRoute();
 const goodDetail = ref({})
 const getDetail = async (id) => {
   const res = await getDetailAPI(id)
-  console.log("resDetail"+res);
   console.dir(res)
   goodDetail.value = res.result
 }
 onMounted(()=>getDetail(route.params.id))
-
+const skuChange = (sku)=>{
+  console.log("====sku====");
+  console.dir(sku)}
 </script>
 
 <template>
@@ -85,7 +87,7 @@ onMounted(()=>getDetail(route.params.id))
                 </dl>
               </div>
               <!-- sku组件 -->
-
+              <Sku :goods="goodDetail" @change="skuChange"></Sku>
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
