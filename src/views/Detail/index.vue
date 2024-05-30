@@ -2,8 +2,8 @@
 import {useRoute} from "vue-router";
 import {getDetailAPI} from "@/apis/details.js";
 import DetailHot from "@/views/Detail/components/DetailHot.vue";
-import ImageView from "@/components/ImageView/index.vue";
-import Sku from "@/components/sku/index.vue";
+
+
 
 const route = useRoute();
 const goodDetail = ref({})
