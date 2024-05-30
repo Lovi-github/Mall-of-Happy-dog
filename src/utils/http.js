@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {ElMessage} from "element-plus";
 
 // 创建axios实例
 const http = axios.create({
@@ -15,6 +16,11 @@ http.interceptors.request.use(config => {
 // axios响应式拦截器
 // 一般进行错误的统一提示，token失效的处理等
 http.interceptors.response.use(res => res.data, e => {
+    //统一错误提示
+    ElMessage({
+        type: 'error',
+        message: e.response.data.message
+    })
     return Promise.reject(e)
 })
 
