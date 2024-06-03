@@ -1,5 +1,8 @@
 import axios from 'axios'
 import {ElMessage} from "element-plus";
+import {useUserStore} from "@/stores/userStore.js";
+import router from "@/router/index.js";
+
 
 // 创建axios实例
 const http = axios.create({
@@ -10,6 +13,12 @@ const http = axios.create({
 // axios请求拦截器
 // 一般会进行token身份验证等
 http.interceptors.request.use(config => {
+    const userStore = useUserStore();
+    const token = userStore.userInfo.token;
+    /*固定写法*/
+    if(token){
+        config.headers.Authorization = `Bearer ${token}`
+    }
     return config
 }, e => Promise.reject(e))
 
@@ -21,6 +30,13 @@ http.interceptors.response.use(res => res.data, e => {
         type: 'error',
         message: e.response.data.message
     })
+    // 401token失效处理（学会看报错信息）
+    const userStore = useUserStore();
+    if(e.response.status === 401){
+        userStore.clearUserInfo()
+        router.push('/login')
+    }
+
     return Promise.reject(e)
 })
 

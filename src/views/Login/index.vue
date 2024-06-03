@@ -1,10 +1,10 @@
 <script setup>
 //定义表单对象
-import {loginAPI} from "@/apis/apis/user.js";
 import {ElMessage} from "element-plus";
 import 'element-plus/theme-chalk/el-message.css'
 import {useRouter} from "vue-router";
-
+import {useUserStore} from "@/stores/userStore.js";
+const userStore = useUserStore()
 const form = ref({
   account: "",
   password: "",
@@ -60,7 +60,7 @@ const doLogin =()=>{
       //验证通过就需要发送后端接口了
       const {account,password} = form.value
       // console.log(account,password)
-      const res = await loginAPI({account,password})
+      const res = await userStore.getUserInfo({account,password})
       console.log("====res==")
       console.dir(res)
       //因为账号密码输入错误我们会报错所以我们需要异常捕获
