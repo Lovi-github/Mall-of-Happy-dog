@@ -2,20 +2,55 @@
 import {useRoute} from "vue-router";
 import {getDetailAPI} from "@/apis/details.js";
 import DetailHot from "@/views/Detail/components/DetailHot.vue";
-
+import {useCartStore} from "@/stores/cartStore.js";
+import {ElMessage} from "element-plus";
+const cartStore = useCartStore();
 
 
 const route = useRoute();
 const goodDetail = ref({})
 const getDetail = async (id) => {
   const res = await getDetailAPI(id)
-  console.dir(res)
   goodDetail.value = res.result
 }
 onMounted(()=>getDetail(route.params.id))
+/*sku组件触发方法*/
+let skuObj = {}
 const skuChange = (sku)=>{
-  console.log("====sku====");
-  console.dir(sku)}
+  // console.log("====sku====");
+  // console.dir(sku)
+  skuObj = sku
+}
+
+// 加入购物车
+const count = ref(1)
+const addCart= ()=>{
+  alert("加入购物车触发")
+  // console.log("==skuobjId==")
+  // console.log(skuObj.skuId)
+  //完整的sku才有skuId
+  if(skuObj.skuId){
+    cartStore.addCart({
+      id:goodDetail.value.id,
+      name:goodDetail.value.name,
+      picture:goodDetail.value.mainPictures[0],
+      price:goodDetail.value.price,
+      count:count.value,
+      skuId:skuObj.skuId,
+      attrsText:skuObj.specsText,
+      selected:true
+    })
+    // console.log("====cartStore.cartList===")
+    // console.log(cartStore.cartList)
+
+
+  }else {
+    //sku不完整
+    ElMessage({type:'warning',message:'请选择商品规格'})
+  }
+
+}
+
 </script>
 
 <template>
@@ -89,10 +124,10 @@ const skuChange = (sku)=>{
               <!-- sku组件 -->
               <Sku :goods="goodDetail" @change="skuChange"></Sku>
               <!-- 数据组件 -->
-
+              <el-input-number v-model="count" :min="1"></el-input-number>
               <!-- 按钮组件 -->
               <div>
-                <el-button size="large" class="btn">
+                <el-button size="large" class="btn" @click="addCart">
                   加入购物车
                 </el-button>
               </div>
