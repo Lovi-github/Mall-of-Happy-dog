@@ -3,6 +3,7 @@
 //1. 先通过ref定义响应式数据
 
 import {useCategoryStore} from "@/stores/categoryStore.js";
+import HeaderCart from "@/views/Layout/components/HeaderCart.vue";
 const categoryStore = useCategoryStore()
 </script>
 
@@ -27,7 +28,7 @@ const categoryStore = useCategoryStore()
         <input type="text" placeholder="搜一搜">
       </div>
       <!-- 头部购物车 -->
-
+      <HeaderCart></HeaderCart>
     </div>
   </header>
 </template>
