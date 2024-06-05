@@ -30,6 +30,11 @@ export const useCartStore = defineStore(
             //删除对应下标的一位
             cartList.value.splice(index,1)
         }
+        /*实现全选的方法*/
+        const checkAll = (selected)=>{
+            //把cartList每一项都设置成全选状态
+            cartList.value.forEach(item=>item.selected = selected)
+        }
         //购物车商品总数
         //(a, c) => a + c.count, 0)
         //a:累加器，c：遍历的元素是，这里我们给累加器的初始值为0
@@ -37,12 +42,24 @@ export const useCartStore = defineStore(
             () =>cartList.value.reduce((a, c) => a + c.count, 0))
         //购物车总价格
         const allPrice = computed(()=>cartList.value.reduce((a,c)=>a+c.count*c.price,0))
+        //判断是否全选的计算属性，every会比较每一项是不是都为selected
+        const isAllSelected = computed(()=>cartList.value.every(item=>item.selected))
+        //计算已经勾选的购物车商品总件数
+        const checkedCount = computed(()=>cartList.value.filter(item=>item.selected)
+            .reduce((a,c)=>a+c.count,0))
+        //计算已经勾选的购物车总价格
+        const checkedPrice = computed(()=>cartList.value.filter(item=>item.selected)
+            .reduce((a,c)=>a+c.count*c.price,0))
         return{
             addCart,
             cartList,
             delCart,
             allPrice,
-            allCount
+            allCount,
+            isAllSelected,
+            checkAll,
+            checkedPrice,
+            checkedCount
         }
     },
     {
