@@ -2,7 +2,9 @@
 import {useCartStore} from "@/stores/cartStore.js";
 
 const cartStore = useCartStore();
-
+const confirm = (skuId)=> {
+  cartStore.delCart(skuId)
+}
 </script>
 
 <template>
@@ -28,7 +30,7 @@ const cartStore = useCartStore();
           <tr v-for="i in cartStore.cartList" :key="i.id">
             <td>
               <!--持久化展示勾选数据-双向绑定-->
-              <el-checkbox v-model="i.selected" />
+              <el-checkbox v-model="i.selected"  @change="cartStore.updateSelectAndCount(i)"/>
             </td>
             <td>
               <div class="goods">
@@ -44,14 +46,14 @@ const cartStore = useCartStore();
               <p>&yen;{{ i.price }}</p>
             </td>
             <td class="tc">
-              <el-input-number v-model="i.count" :min="1" />
+              <el-input-number @change="cartStore.updateSelectAndCount(i)" v-model="i.count" :min="1" />
             </td>
             <td class="tc">
-              <p class="f16 red">&yen;{{ (i.price * i.count).toFixed(2) }}</p>
+              <p class="f16 red"  >&yen;{{ (i.price * i.count).toFixed(2) }}</p>
             </td>
             <td class="tc">
               <p>
-                <el-popconfirm title="确认删除吗?" confirm-button-text="确认" cancel-button-text="取消" @confirm="">
+                <el-popconfirm title="确认删除吗?" confirm-button-text="确认" cancel-button-text="取消" @confirm="confirm(i.skuId)">
                   <template #reference>
                     <a href="javascript:;">删除</a>
                   </template>

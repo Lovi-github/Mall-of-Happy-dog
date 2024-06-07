@@ -4,7 +4,7 @@
  *
  */
 import {useUserStore} from "@/stores/userStore.js";
-import {deleteCartAPI, getUserCartListAPI, insertCartAPI} from "@/apis/cart.js";
+import {deleteCartAPI, getUserCartListAPI, insertCartAPI, mergeCartAPI, updateCartAPI} from "@/apis/cart.js";
 
 export const useCartStore = defineStore(
     /*名字*/
@@ -49,7 +49,11 @@ export const useCartStore = defineStore(
                 console.log("删除的skuId")
                 console.log([skuId])
                 await deleteCartAPI([skuId])
+                console.log("==删除后的cartList11=")
+                console.log(cartList.value)
                 await updateCartList()
+                console.log("==删除后的cartList222=")
+                console.log(cartList.value)
             }else {
                 //找到要删除的项目的下标
                 const index = cartList.value.findIndex((item)=>skuId === item.skuId)
@@ -66,6 +70,25 @@ export const useCartStore = defineStore(
         //登录退出后，清空当前购物车
         const clearCart = ()=>{
             cartList.value = []
+        }
+        //合并购物车
+        const mergeCart = async ()=>{
+            //用户登录之后我们需要合并购物车
+            // 遍历购物车里的数据，把数据整理成和接口要求的数据一样
+            const cartListReq = cartList.value.map(item=>{
+                return {
+                    skuId: item.skuId,
+                    selected: item.selected,
+                    count: item.count
+                }
+            })
+            //调用接口合并购物车(这会把新数据保存到购物车数据库里）
+            await mergeCartAPI(cartListReq)
+        }
+        //修改购物车的数量和勾选情况
+        const updateSelectAndCount = async (goodDetail)=>{
+            const {skuId, selected, count} = goodDetail
+            await updateCartAPI(skuId,{selected, count})
         }
         //购物车商品总数
         //(a, c) => a + c.count, 0)
@@ -95,7 +118,9 @@ export const useCartStore = defineStore(
             checkedPrice,
             checkedCount,
             updateCartList,
-            clearCart
+            clearCart,
+            mergeCart,
+            updateSelectAndCount
         }
     },
     {

@@ -9,6 +9,8 @@ export const useUserStore = defineStore('user', () => {
     const getUserInfo = async (user) => {
         const res = await loginAPI(user)
         userInfo.value = res.result
+        //合并购物车
+        await cartStore.mergeCart()
         //从数据库中拿到最新的购物车数据
         await cartStore.updateCartList()
     }
