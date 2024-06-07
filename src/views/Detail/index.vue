@@ -25,7 +25,6 @@ const skuChange = (sku)=>{
 // 加入购物车
 const count = ref(1)
 const addCart= ()=>{
-  alert("加入购物车触发")
   // console.log("==skuobjId==")
   // console.log(skuObj.skuId)
   //完整的sku才有skuId

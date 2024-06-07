@@ -1,11 +1,28 @@
 import http from "@/utils/http.js";
 
 /**
- * 获取要添加到购物车的商品列表
+ * 获取登录用户的购物车列表
  * @param skuId
  * @param count
  * @returns {Promise<axios.AxiosResponse<any>>}
  */
-export const getAddCartListAPI = ({skuId,count})=>{
-    return http.post('/member/cart',{skuId,count})
+export const getUserCartListAPI = ()=>{
+    return http.get('/member/cart',)
+}
+
+/**
+ * 根据sku对象把购物车数据插入数据库里
+ * @param sku 用户对象
+ */
+export function insertCartAPI(sku){
+    return http.post('/member/cart',sku)
+}
+
+/**
+ * 删除购物车商品
+ * @param ids
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
+export function deleteCartAPI(ids){
+    return http.delete('/member/cart/', {data:{ids}})
 }
