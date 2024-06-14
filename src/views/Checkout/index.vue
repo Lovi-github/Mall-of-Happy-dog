@@ -87,6 +87,7 @@ const createOrder = async () => {
     addressId: curAddress.value.id
   })
   const orderId = res.result.id
+  console.log("orderId")
   console.log(orderId)
   router.push({
     path: '/pay',

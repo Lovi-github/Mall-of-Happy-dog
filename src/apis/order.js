@@ -25,3 +25,7 @@ export function addAddressAPI(data) {
 export const createOrderAPI = (data) => {
     return http.post('/member/order',data)
 }
+
+export const getOrderPayInfoAPI = (id) => {
+    return http.get(`/member/order/${id}`);
+}
