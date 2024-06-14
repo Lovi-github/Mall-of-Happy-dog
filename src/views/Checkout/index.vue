@@ -1,11 +1,12 @@
 <script setup>
-import {addAddressAPI, createOrderAPI} from "@/apis/order.js";
+import {addAddressAPI, checkOutOrderAPI, createOrderAPI} from "@/apis/order.js";
 import {ElMessage} from "element-plus";
+import router from "@/router/index.js";
 
 const checkInfo = ref({})  // 订单对象
 const curAddress = ref({})  // 地址对象{默认地址}
 const getCheckInfo = async ()=>{
-  const res = await createOrderAPI()
+  const res = await checkOutOrderAPI()
   checkInfo.value = res.result
   //当前地址默认展示为默认地址
   curAddress.value = res.result.userAddresses.find(item=>item.isDefault===0)
@@ -67,6 +68,33 @@ const cancel = () => {
   };
   // 关闭对话框的逻辑需根据实际情况调整，这里假设由父组件控制
 };
+
+/**
+ * 创建支付的订单
+ */
+const createOrder = async () => {
+  const res = await createOrderAPI({
+    deliveryTimeType: 1,
+    payType: 1,
+    payChannel: 1,
+    buyerMessage: '',
+    goods: checkInfo.value.goods.map(item => {
+      return {
+        skuId: item.skuId,
+        count: item.count
+      }
+    }),
+    addressId: curAddress.value.id
+  })
+  const orderId = res.result.id
+  console.log(orderId)
+  router.push({
+    path: '/pay',
+    query: {
+      id: orderId
+    }
+  })
+}
 
 </script>
 
@@ -162,7 +190,7 @@ const cancel = () => {
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <el-button type="primary" size="large" >提交订单</el-button>
+          <el-button @click="createOrder" type="primary" size="large">提交订单</el-button>
         </div>
       </div>
     </div>
