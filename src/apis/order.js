@@ -25,7 +25,11 @@ export function addAddressAPI(data) {
 export const createOrderAPI = (data) => {
     return http.post('/member/order',data)
 }
-
+/**
+ *  获取支付订单详情接口
+ * @param id
+ * @returns {Promise<axios.AxiosResponse<any>>}
+ */
 export const getOrderPayInfoAPI = (id) => {
     return http.get(`/member/order/${id}`);
 }

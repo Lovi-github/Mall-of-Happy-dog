@@ -107,6 +107,11 @@ export default {
       // 组件初始化的时候更新禁用状态
       initDisabledStatus(props.goods.specs, pathMap)
     })
+      //拿到组件接收到的props数据
+      onMounted(() => {
+          console.log('Component mounted with goods data:', props.goods)
+      })
+
 
     const clickSpecs = (item, val) => {
       if (val.disabled) return false

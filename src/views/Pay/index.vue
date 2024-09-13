@@ -1,9 +1,11 @@
 <script setup>
 import {useRoute} from "vue-router";
 import {getOrderPayInfoAPI} from "@/apis/order.js";
+import {useCountDown} from "@/utils/useCountDown.js";
 
 const payInfo = ref({})
 const route = useRoute()
+const {start,formatTime} = useCountDown();
 // console.log("route.query")
 // console.log(route.query)
 // console.dir(route.query)
@@ -17,7 +19,9 @@ const getPayInfo = async ()=>{
   console.log("=====payInfo====")
   console.log(payInfo)
    console.log("执行了getPayInfo")
-
+    console.log(payInfo.value.countdown)
+    // 开始倒计时
+    start(payInfo.value.countdown)
 }
 onMounted(()=>getPayInfo())
 
@@ -32,7 +36,7 @@ onMounted(()=>getPayInfo())
         <span class="icon iconfont icon-queren2"></span>
         <div class="tip">
           <p>订单提交成功！请尽快完成支付。</p>
-          <p>支付还剩 <span>24分30秒</span>, 超时后将取消订单</p>
+          <p>支付还剩 <span>{{ formatTime }}</span>, 超时后将取消订单</p>
         </div>
         <div class="amount">
           <span>应付总额：</span>
