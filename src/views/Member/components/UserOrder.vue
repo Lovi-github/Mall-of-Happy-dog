@@ -23,6 +23,8 @@ const params = ref({
 const total = ref(0)
 const getOrderList = async () => {
     const res = await getUserOrder(params.value)
+    console.log("进入userOrder页面")
+    console.log(res)
     orderList.value = res.result.items
     // 存入总条数
     total.value = res.result.counts

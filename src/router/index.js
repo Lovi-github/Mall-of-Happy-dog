@@ -44,6 +44,26 @@ const router = createRouter({
         {
           path: 'checkout',
           component:Checkout
+        },{
+          path: 'pay',
+          component: Pay
+        },{
+          path: 'paycallback', // 注意路径，必须是paycallback
+          component: PayBack
+        },
+        {
+          path: 'member',
+          component: Member,
+          children: [
+            {
+              path: '',
+              component: UserInfo
+            },
+            {
+              path: 'order',
+              component: UserOrder
+            }
+          ]
         }
 
       ]
@@ -52,26 +72,6 @@ const router = createRouter({
     {
       path: '/login',
       component: Login
-    },{
-      path: '/pay',
-      component: Pay
-    },{
-      path: '/paycallback', // 注意路径，必须是paycallback
-      component: PayBack
-    },
-    {
-      path: '/member',
-      component: Member,
-      children: [
-        {
-          path: '',
-          component: UserInfo
-        },
-        {
-          path: '/order',
-          component: UserOrder
-        }
-      ]
     }
   ],
   //定制路由滚动行为,进入新页面的时候

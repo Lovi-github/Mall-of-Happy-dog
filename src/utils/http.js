@@ -7,7 +7,7 @@ import router from "@/router/index.js";
 // 创建axios实例
 const http = axios.create({
     baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
-    timeout: 5000
+    timeout: 10000
 })
 
 // axios请求拦截器
@@ -19,12 +19,23 @@ http.interceptors.request.use(config => {
     if(token){
         config.headers.Authorization = `Bearer ${token}`
     }
+    // 打印请求的URL
+    console.log('Request URL:', config.url);
     return config
 }, e => Promise.reject(e))
 
 // axios响应式拦截器
 // 一般进行错误的统一提示，token失效的处理等
-http.interceptors.response.use(res => res.data, e => {
+http.interceptors.response.use(res => {
+    // 打印完整的响应对象
+    console.log('Response:', res);
+
+    // 打印响应数据
+    console.log('Response Data:', res.data);
+
+    return res.data;
+}
+, e => {
     //统一错误提示
     ElMessage({
         type: 'error',
@@ -38,7 +49,8 @@ http.interceptors.response.use(res => res.data, e => {
     }
 
     return Promise.reject(e)
-})
+}
+)
 
 
 export default http
