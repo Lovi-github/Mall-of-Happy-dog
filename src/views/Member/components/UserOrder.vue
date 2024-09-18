@@ -123,15 +123,19 @@ const sizeChange = (size) => {
                     </div>
                     <!-- 分页插件 -->
                     <!--分页总数：total，大小，页面切换监听-->
-                    <el-pagination
-                        background
-                        layout="prev, pager, next"
-                        :total="total"
-                        :page-size="params.pageSize"
-                        @current-change="pageChange"
-                        :page-sizes="[2,5,10]"
-                        @size-change="sizeChange"
-                    />
+                    <div class="pagination-container">
+                        <el-pagination
+                            background
+                            layout="prev, pager, next, sizes"
+                            :total="total"
+                            :page-size="params.pageSize"
+                            @current-change="pageChange"
+                            :page-sizes="[2,5,10]"
+                            @size-change="sizeChange"
+                            prev-text="上一页"
+                            next-text="下一页"
+                        />
+                    </div>
                 </div>
             </div>
 
