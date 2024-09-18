@@ -41,11 +41,30 @@ const sizeChange = (size) => {
     getOrderList()
 }
 
+// 创建格式化函数
+const fomartPayState = (payState) => {
+    const stateMap = {
+        1: '待付款',
+        2: '待发货',
+        3: '待收货',
+        4: '待评价',
+        5: '已完成',
+        6: '已取消'
+    }
+    return stateMap[payState]
+}
+
+// tab切换
+const tabChange = (type) => {
+    params.value.orderState = type
+    getOrderList()
+}
+
 </script>
 
 <template>
     <div class="order-container">
-        <el-tabs>
+        <el-tabs @tab-change="tabChange">
             <!-- tab切换 -->
             <el-tab-pane v-for="item in tabTypes" :key="item.name" :label="item.label" />
 
@@ -86,7 +105,8 @@ const sizeChange = (size) => {
                                 </ul>
                             </div>
                             <div class="column state">
-                                <p>{{ order.orderState }}</p>
+                                <!-- 调用函数适配显示 -->
+                                <p>{{ fomartPayState(order.orderState)}}</p>
                                 <p v-if="order.orderState === 3">
                                     <a href="javascript:;" class="green">查看物流</a>
                                 </p>
