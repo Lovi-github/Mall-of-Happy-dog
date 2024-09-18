@@ -24,7 +24,11 @@ const getPayInfo = async ()=>{
     start(payInfo.value.countdown)
 }
 onMounted(()=>getPayInfo())
-
+// 支付地址
+const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+const backURL = 'http://127.0.0.1:5173/paycallback'
+const redirectUrl = encodeURIComponent(backURL)
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>
 
 
@@ -49,6 +53,7 @@ onMounted(()=>getPayInfo())
         <div class="item">
           <p>支付平台</p>
           <a class="btn wx" href="javascript:;"></a>
+            <!--支付宝沙箱环境，这是我们目前唯一能用的-->
           <a class="btn alipay" :href="payUrl"></a>
         </div>
         <div class="item">
