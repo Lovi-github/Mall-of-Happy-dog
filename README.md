@@ -1,5 +1,5 @@
 # Mall of Happy Dog
-快乐小狗的商铺
+快乐小狗的商铺《已完结》
 
 ## Recommended IDE Setup
 
