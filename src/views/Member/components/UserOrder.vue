@@ -1,5 +1,7 @@
 <script setup>
 // tab列表
+import {getUserOrder} from "@/apis/order.js";
+
 const tabTypes = [
     { name: "all", label: "全部订单" },
     { name: "unpay", label: "待付款" },
@@ -10,7 +12,32 @@ const tabTypes = [
     { name: "cancel", label: "已取消" }
 ]
 // 订单列表
-const orderList = []
+const orderList = ref([])
+
+const params = ref({
+    orderState: 0,
+    page: 1,
+    pageSize: 2
+})
+// 补充总条数
+const total = ref(0)
+const getOrderList = async () => {
+    const res = await getUserOrder(params.value)
+    orderList.value = res.result.items
+    // 存入总条数
+    total.value = res.result.counts
+}
+onMounted(() => getOrderList())
+// 页数切换
+const pageChange = (page) => {
+    params.value.page = page
+    getOrderList()
+}
+//记录数切换,设置每页的大小
+const sizeChange = (size) => {
+    params.value.pageSize = size
+    getOrderList()
+}
 
 </script>
 
@@ -92,10 +119,17 @@ const orderList = []
                             </div>
                         </div>
                     </div>
-                    <!-- 分页 -->
-                    <div class="pagination-container">
-                        <el-pagination background layout="prev, pager, next" />
-                    </div>
+                    <!-- 分页插件 -->
+                    <!--分页总数：total，大小，页面切换监听-->
+                    <el-pagination
+                        background
+                        layout="prev, pager, next"
+                        :total="total"
+                        :page-size="params.pageSize"
+                        @current-change="pageChange"
+                        :page-sizes="[2,5,10]"
+                        @size-change="sizeChange"
+                    />
                 </div>
             </div>
 
